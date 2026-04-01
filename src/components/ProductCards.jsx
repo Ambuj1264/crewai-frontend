@@ -1,3 +1,5 @@
+import React from 'react'
+
 function fmt(price) {
   if (price == null) return '—'
   return '₹' + Number(price).toLocaleString('en-IN')
@@ -6,30 +8,30 @@ function fmt(price) {
 export default function ProductCards({ products }) {
   if (!products?.length) return (
     <div className="no-data">
-      <div className="no-data-icon">📦</div>
-      <p>No products found. Try refining your query.</p>
+      <p>No products found matching these specific parameters.</p>
     </div>
   )
 
   return (
     <div className="products-grid">
       {products.map((p, i) => (
-        <div className="product-card" key={p.id || i} id={`product-${i}`}>
-          <div className="card-meta">
+        <div className="pcard" key={p.id || i}>
+          <div className="pcard-top">
             <span className="brand-tag">{p.brand || 'Brand'}</span>
             {p.rating != null && (
               <span className="rating-tag">★ {Number(p.rating).toFixed(1)}</span>
             )}
           </div>
 
-          <p className="card-name">{p.name}</p>
-          <p className="card-price">{fmt(p.price)}</p>
+          <p className="pcard-name">{p.name}</p>
+          <p className="pcard-price"><sub>₹</sub>{fmt(p.price).replace('₹', '')}</p>
+
+          <div className="pcard-divider" />
 
           {p.features?.length > 0 && (
-            <div className="card-features">
-              {p.features.slice(0, 5).map((f, fi) => (
-                <div className="feat-row" key={fi}>
-                  <span className="feat-dash">—</span>
+            <div className="pcard-features">
+              {p.features.slice(0, 4).map((f, fi) => (
+                <div className="feat-line" key={fi}>
                   <span>{f}</span>
                 </div>
               ))}
@@ -37,7 +39,7 @@ export default function ProductCards({ products }) {
           )}
 
           {p.use_cases?.length > 0 && (
-            <div className="card-tags">
+            <div className="pcard-tags">
               {p.use_cases.map((uc, ui) => (
                 <span className="use-tag" key={ui}>{uc}</span>
               ))}

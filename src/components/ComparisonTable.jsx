@@ -1,14 +1,15 @@
+import React from 'react'
+
 function ScoreCell({ score }) {
   const n = Number(score)
-  const cls = n >= 7.5 ? 'sc-hi' : n >= 5 ? 'sc-md' : 'sc-lo'
-  return <span className={`score-cell ${cls}`}>{n.toFixed(1)}</span>
+  const cls = n >= 7.5 ? 's-hi' : n >= 5 ? 's-md' : 's-lo'
+  return <span className={`score-pill ${cls}`}>{n.toFixed(1)}</span>
 }
 
 export default function ComparisonTable({ comparison }) {
   if (!comparison || !Object.keys(comparison).length) return (
     <div className="no-data">
-      <div className="no-data-icon">⚖️</div>
-      <p>Comparison unavailable for this query.</p>
+      <p>Comparison data unavailable.</p>
     </div>
   )
 
@@ -18,18 +19,17 @@ export default function ComparisonTable({ comparison }) {
 
   if (!products.length) return (
     <div className="no-data">
-      <div className="no-data-icon">⚖️</div>
-      <p>No comparison scores returned.</p>
+      <p>No comparison scores generated.</p>
     </div>
   )
 
   return (
-    <>
-      <div className="table-scroll">
-        <table className="comp-table" id="comparison-table">
+    <div className="reveal">
+      <div className="table-wrap">
+        <table className="comp-table">
           <thead>
             <tr>
-              <th>Product</th>
+              <th>Index / Name</th>
               {criteria.map(c => <th key={c}>{c}</th>)}
               <th>Overall</th>
             </tr>
@@ -39,11 +39,11 @@ export default function ComparisonTable({ comparison }) {
               const row = scores[name] || {}
               return (
                 <tr key={name}>
-                  <td className="td-product">{name}</td>
+                  <td className="td-name">{name}</td>
                   {criteria.map(c => (
                     <td key={c}><ScoreCell score={row[c] ?? 0} /></td>
                   ))}
-                  <td className="overall-cell">
+                  <td className="td-overall">
                     {row.overall != null ? Number(row.overall).toFixed(1) : '—'}
                   </td>
                 </tr>
@@ -58,6 +58,6 @@ export default function ComparisonTable({ comparison }) {
           <strong>Analysis — </strong>{comparison.summary}
         </div>
       )}
-    </>
+    </div>
   )
 }
