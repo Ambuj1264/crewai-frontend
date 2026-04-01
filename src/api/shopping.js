@@ -2,7 +2,7 @@
  * API client for the AI Shopping Assistant backend.
  */
 
-const API_BASE = '/recommend'
+const API_BASE = import.meta.env.VITE_API_URL || 'https://crewai-backend-five.vercel.app/recommend'
 
 /**
  * Send a shopping query to the backend and return structured results.
